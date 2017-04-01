@@ -10,7 +10,7 @@ server.set('view engine', 'ejs'); // simple template engine for serverside rende
 server.get('/', (req, res) => {
   res.render('index', {
     initialContent: '...'
-  }); // pass in name of the template to render
+  }); // render the template index
 });
 
 server.use('/api', router);
