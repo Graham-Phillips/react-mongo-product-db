@@ -1,0 +1,22 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "productName": "Widget Type 1",
+      "productDescription": "Basic Widget",
+      "price": "9.99"
+    },
+    {
+      "id": 2,
+      "productName": "Widget Type 2",
+      "productDescription": "Basic Widget with extra widgetiness",
+      "price": "11.99"
+    },
+    {
+      "id": 3,
+      "productName": "Widget Ultra",
+      "productDescription": "The best widget money can buy",
+      "price": "19.99"
+    }
+  ]
+}

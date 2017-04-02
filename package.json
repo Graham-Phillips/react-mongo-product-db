@@ -11,8 +11,10 @@
   "author": "Graham Phillips",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.16.0",
     "ejs": "^2.5.6",
     "express": "^4.15.2",
+    "json-loader": "^0.5.4",
     "mongodb": "^2.2.25",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
