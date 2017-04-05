@@ -11,7 +11,7 @@ class App extends React.Component  {
   };
 
   componentDidMount() {
-    // ajax... we're using axios node module
+    //  using axios node module to simplify ajax calls
     axios.get('/api/products')
       .then(resp => {
         this.setState({
