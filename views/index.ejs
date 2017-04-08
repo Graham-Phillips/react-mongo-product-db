@@ -1,3 +1,8 @@
 <%- include('header') -%>
-  <div id="products"><%- initialContent -%></div>
+  <div id="products"><%- initialMarkup -%></div>
+
+  <script type="text/javascript">
+    window.initialData = <%- JSON.stringify(initialData) -%>;
+  </script>
 <%- include('footer') -%>
+<!-- hack to avoid an additional call to the server - data placed in initialData -->

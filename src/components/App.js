@@ -1,29 +1,15 @@
 import React from 'react';
-import axios from 'axios'; // ajax library
 import Header from './Header';
 import ProductPreview from './ProductPreview';
 
 class App extends React.Component  {
-  // as we are using babel-stage-2 we can use class fields
+  // as we are using babel-stage-2 we can use class properties
   state = {
     headerText: 'Product Dataabaase dddd',
-    products: []
+    products: this.props.initialProducts
   };
 
-  componentDidMount() {
-    //  using axios node module to simplify ajax calls
-    axios.get('/api/products')
-      .then(resp => {
-        this.setState({
-          products: resp.data.products
-        });
-      })
-      .catch(console.error);
-
-  }
-
-  componentWillUnmount() {
-  }
+  
 
   // iterate over products with map to pass through each product to ProductPreview
   render() {

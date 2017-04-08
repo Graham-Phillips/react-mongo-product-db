@@ -1,11 +1,20 @@
-/** Serverside rendering of client side React UI
-*   Fetches data from the api
-**/
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+
+import App from './src/components/App';
 
 import config from './config';
 import axios from 'axios';
 
-axios.get(`${config.serverUrl}/api/products`)
-  .then(resp => {
-    console.log(resp.data);
-  });
+const serverRender = () =>
+  axios.get(`${config.serverUrl}/api/products`)
+    .then(resp => {
+      return {
+        initialMarkup: ReactDOMServer.renderToString(
+          <App initialProducts={resp.data.products} />
+        ),
+        initialData: resp.data
+      };
+    });
+
+export default serverRender;
