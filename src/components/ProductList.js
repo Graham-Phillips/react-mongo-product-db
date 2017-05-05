@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductPreview from './ProductPreview';
+import PropTypes from 'prop-types';
 
 const ProductList = ({ products, onProductClick}) => (
 <div className = "ProductList">
@@ -13,8 +14,8 @@ const ProductList = ({ products, onProductClick}) => (
 );
 
 ProductList.propTypes = {
-  products: React.PropTypes.object,
-  onProductClick: React.PropTypes.func.isRequired
+  products: PropTypes.object,
+  onProductClick: PropTypes.func.isRequired
 }
 
 export default ProductList;

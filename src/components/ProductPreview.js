@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import PropTypes from 'prop-types';
 
 class ProductPreview extends Component {
 
@@ -24,10 +24,10 @@ class ProductPreview extends Component {
 }
 
 ProductPreview.propTypes = {
-  id: React.PropTypes.number.isRequired,
-  productName: React.PropTypes.string.isRequired,
-  productDescription: React.PropTypes.string.isRequired,
-  onClick: React.PropTypes.func.isRequired
+  id: PropTypes.number.isRequired,
+  productName: PropTypes.string.isRequired,
+  productDescription: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 export default ProductPreview;

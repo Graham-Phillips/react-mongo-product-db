@@ -1,17 +1,18 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 class Product extends Component {
   render() {
     return (
       <div className = "Product">
-        {this.props.id}
+        {this.props.description}
       </div>
     );
   }
 }
 
 Product.PropTypes = {
-  id: PropTypes.number.isRequired
+  description: PropTypes.string.isRequired
 };
 
 export default Product;
