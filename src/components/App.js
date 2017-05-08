@@ -3,35 +3,33 @@ import Header from './Header';
 import ProductList from './ProductList';
 import Product from './Product';
 import * as api from '../api';
-import PropTypes from 'prop-types';
 
 // function to utilise the html5 history api. this app is very simple so we can use this instead of React router
-const pushState = (obj, url) => {
+const pushState = (obj, url) =>
   window.history.pushState(obj, '', url);
-}
 
 class App extends React.Component  {
-  static propTypes = {
-    initialData: PropTypes.object.isRequired
-  }
   // as we are using babel-stage-2 we can use class properties
+  static propTypes = {
+    initialData: React.PropTypes.object.isRequired
+  };
+
   state = this.props.initialData;
   componentDidMount() {
 
   }
 
   fetchProduct = (productId) => {
+    console.log("fetchProduct clicked");
     // change route to product page
     pushState(
       { currentProductId: productId }, // state object
       `/product/${productId}` // url
     );
-
+    // get the product info
     api.fetchProduct(productId).then(product => {
-      // get the product info
       this.setState({
-        currentProductId: product.id, // if currentProductId is set on state we use it to set the main content of the page
-        // modify the products object to cache the fetched product info on the state
+        currentProductId: product.id,
         products: {
           ...this.state.products,
           [product.id]: product
@@ -39,18 +37,15 @@ class App extends React.Component  {
       });
     });
   };
-
   currentProduct() {
-    return this.state.products[this.state.currentProductId];
-  }
-
-  pageHeader() {
-    if(this.state.currentProductId){
-      return this.currentProduct().productName;
+      return this.state.products[this.state.currentProductId];
     }
-    return "Products";
-  }
-
+    pageHeader() {
+      if (this.state.currentProductId) {
+        return this.currentProduct().productName;
+      }
+      return 'Products';
+    }
   // either show the list of products, or if we have a current product, show it
   currentContent() {
     if(this.state.currentProductId){
@@ -58,8 +53,8 @@ class App extends React.Component  {
     }
     return <ProductList
             onProductClick = {this.fetchProduct}
-            products={this.state.products} />;
-  };
+            products={this.state} />;
+  }
 
   // iterate over products with map to pass through each product to ProductPreview
   render() {
@@ -71,6 +66,5 @@ class App extends React.Component  {
     );
   }
 }
-
 
 export default App;

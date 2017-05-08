@@ -1,15 +1,14 @@
-import express from 'express';
 import config from './config';
-import router from './api/routes';
+import express from 'express';
+import apiRouter from './api/routes';
 import serverRender from './reactRenderer';
 
 const server = express();
 
 server.set('view engine', 'ejs'); // simple template engine for serverside rendered html
 
-server.get(['/', '/product/:productId'], (req, res) => {
-
-  serverRender(req.params.productId)
+server.get(['/', '/product/:productId'],(req, res) => {
+  serverRender()
     .then(({ initialMarkup, initialData }) => {
       res.render('index', {
         initialMarkup,
@@ -19,7 +18,7 @@ server.get(['/', '/product/:productId'], (req, res) => {
     .catch(console.error);
 });
 
-server.use('/api', router);
+server.use('/api', apiRouter);
 server.use(express.static('public'));
 
 server.listen(config.port, config.host, () => {
