@@ -5,6 +5,6 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 
 ReactDOM.render(
-  <App initialData={window.initialData.products} />,
+  <App initialData={window.initialData} />,
   document.getElementById('products')
 );

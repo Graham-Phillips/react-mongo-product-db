@@ -9,6 +9,11 @@ import PropTypes from 'prop-types';
 const pushState = (obj, url) =>
   window.history.pushState(obj, '', url);
 
+// assign a handler to the onPopState event
+const onPopState = handler => {
+  window.onpopstate = handler;
+};
+
 class App extends React.Component  {
   // as we are using babel-stage-2 we can use class properties
   static propTypes = {
@@ -16,12 +21,21 @@ class App extends React.Component  {
   };
 
   state = this.props.initialData;
-  componentDidMount() {
 
+  componentDidMount() {
+  // deal with browser back button:
+    onPopState((event) => {
+      this.setState({
+        currentProductId: (event.state || {}).currentProductId
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    onPopState(null);
   }
 
   fetchProduct = (productId) => {
-    console.log("fetchProduct clicked");
     // change route to product page
     pushState(
       { currentProductId: productId }, // state object
@@ -69,9 +83,10 @@ class App extends React.Component  {
             productListClick={this.fetchProductList}
             {...this.currentProduct()} />;
     }
+
     return <ProductList
             onProductClick = {this.fetchProduct}
-            products={this.state} />;
+            products={this.state.products} />;
   }
 
   // iterate over products with map to pass through each product to ProductPreview
