@@ -32,6 +32,7 @@ class App extends React.Component  {
   }
 
   componentWillUnmount() {
+    // when component is unloaded, ensure the nav history handler is cleared
     onPopState(null);
   }
 
