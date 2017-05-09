@@ -3,6 +3,7 @@ import Header from './Header';
 import ProductList from './ProductList';
 import Product from './Product';
 import * as api from '../api';
+import PropTypes from 'prop-types';
 
 // function to utilise the html5 history api. this app is very simple so we can use this instead of React router
 const pushState = (obj, url) =>
@@ -11,7 +12,7 @@ const pushState = (obj, url) =>
 class App extends React.Component  {
   // as we are using babel-stage-2 we can use class properties
   static propTypes = {
-    initialData: React.PropTypes.object.isRequired
+    initialData: PropTypes.object.isRequired
   };
 
   state = this.props.initialData;
