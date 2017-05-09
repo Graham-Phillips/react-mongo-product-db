@@ -38,6 +38,21 @@ class App extends React.Component  {
       });
     });
   };
+
+  fetchProductList = () => {
+    // first, navigate:
+    pushState(
+      { currentProductId: null },
+      '/' // new url pushed to history state
+    );
+    api.fetchProductList().then(products => {
+      this.setState({
+        currentProductId: null, // current product being null causes UI to change
+        products
+      });
+    });
+  };
+
   currentProduct() {
       return this.state.products[this.state.currentProductId];
     }
@@ -50,7 +65,9 @@ class App extends React.Component  {
   // either show the list of products, or if we have a current product, show it
   currentContent() {
     if(this.state.currentProductId){
-      return <Product {...this.currentProduct()} />;
+      return <Product
+            productListClick={this.fetchProductList}
+            {...this.currentProduct()} />;
     }
     return <ProductList
             onProductClick = {this.fetchProduct}
