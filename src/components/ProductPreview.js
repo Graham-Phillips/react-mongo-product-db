@@ -5,7 +5,6 @@ class ProductPreview extends Component {
 
   // on click send the id back for navigation purposes
   handleClick = () => {
-    console.log(this.props.productName);
     this.props.onClick(this.props.id);
   };
 

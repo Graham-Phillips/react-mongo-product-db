@@ -70,18 +70,38 @@ class App extends React.Component  {
 
   currentProduct() {
       return this.state.products[this.state.currentProductId];
+  }
+
+  pageHeader() {
+    if (this.state.currentProductId) {
+      return this.currentProduct().productName;
     }
-    pageHeader() {
-      if (this.state.currentProductId) {
-        return this.currentProduct().productName;
-      }
-      return 'Products';
+    return 'Products';
+  }
+
+  fetchAreas = (areaIds) => {
+    api.fetchAreas(areaIds).then(areas => {
+      this.setState( {
+        areas
+      });
+    });
+  };
+
+  lookUpArea = (areaId) => {
+    // if on initial load the areas will be undefined as fetchAreas not called yet
+    if(!this.state.areas || !this.state.areas[areaId]) {
+      return '...'; // areas not available
     }
-  // either show the list of products, or if we have a current product, show it
+    return this.state.areas[areaId];
+  };
+
+  // Render content. Either show the list of products, or if we have a current product, show it
   currentContent() {
     if(this.state.currentProductId){
       return <Product
             productListClick={this.fetchProductList}
+            fetchAreas={this.fetchAreas}
+            lookUpArea={this.lookUpArea}
             {...this.currentProduct()} />;
     }
 

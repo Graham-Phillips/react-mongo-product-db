@@ -2,27 +2,59 @@
   manage api requests
 **/
 import express from 'express';
-import data from '../src/testData';
+import { MongoClient } from 'mongodb';
+import assert from 'assert';
+import config from '../config';
 
 const router = express.Router();
-const products = data.products.reduce((obj, product) => {
-    obj[product.id] = product;
-    return obj;
-  }, {});
+
+let mongoDb;
+MongoClient.connect(config.mongodbUri, (err, db) => {
+  assert.equal(null, err);
+  mongoDb = db;
+});
 
 router.get('/products', (req, res) => {
-  res.send(
-    // products is an array, convert to an object via reduce for easy lookup...
-    { products: products
-    }
-  );
+  let products = {};
+  mongoDb.collection('products').find({})
+   .project({ // just the data we want
+     id: 1,
+     productName: 1,
+     productDescription: 1
+   })
+   .each((err, product) => {
+     assert.equal(null, err);
+
+     if (!product) { // no more products
+       res.send({ products });
+       return;
+     }
+
+     products[product.id] = product;
+   });
+});
+
+router.get('/areas/:areaIds', (req, res) => {
+  const areaIds = req.params.areaIds.split(',').map(Number) // convert strings to Numbers
+  let areas = {};
+  mongoDb.collection('productSalesAreas').find({ id: {$in: areaIds}})
+   .each((err, area) => {
+     assert.equal(null, err);
+
+     if (!area) { // no more products
+       res.send({ areas });
+       return;
+     }
+
+     areas[area.id] = area;
+   });
 });
 
 router.get('/products/:productId', (req, res) => {
-  let product = products[req.params.productId];
-  product.description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-
-  res.send(product);
+  mongoDb.collection('products')
+       .findOne({ id: Number(req.params.productId) })
+       .then(product => res.send(product))
+       .catch(console.error);
 });
 
 export default router;
