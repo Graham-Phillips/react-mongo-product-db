@@ -5,7 +5,7 @@ class ProductPreview extends Component {
 
   // on click send the id back for navigation purposes
   handleClick = () => {
-    this.props.onClick(this.props.id);
+    this.props.onClick(this.props._id);
   };
 
   render() {
@@ -23,7 +23,7 @@ class ProductPreview extends Component {
 }
 
 ProductPreview.propTypes = {
-  id: PropTypes.number.isRequired,
+  _id: PropTypes.string.isRequired,
   productName: PropTypes.string.isRequired,
   productDescription: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired

@@ -15,7 +15,11 @@ server.get(['/', '/product/:productId'],(req, res) => {
         initialData
       });
     })
-    .catch(console.error);
+    .catch(error => {
+      console.error(error);
+      res.status(404).send('Page not found');
+
+    });
 });
 
 server.use('/api', apiRouter);

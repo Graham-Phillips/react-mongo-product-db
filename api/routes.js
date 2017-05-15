@@ -2,7 +2,7 @@
   manage api requests
 **/
 import express from 'express';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectID } from 'mongodb';
 import assert from 'assert';
 import config from '../config';
 
@@ -18,7 +18,6 @@ router.get('/products', (req, res) => {
   let products = {};
   mongoDb.collection('products').find({})
    .project({ // just the data we want
-     id: 1,
      productName: 1,
      productDescription: 1
    })
@@ -30,14 +29,14 @@ router.get('/products', (req, res) => {
        return;
      }
 
-     products[product.id] = product;
+     products[product._id] = product;
    });
 });
 
 router.get('/areas/:areaIds', (req, res) => {
-  const areaIds = req.params.areaIds.split(',').map(Number) // convert strings to Numbers
+  const areaIds = req.params.areaIds.split(',').map(ObjectID);
   let areas = {};
-  mongoDb.collection('productSalesAreas').find({ id: {$in: areaIds}})
+  mongoDb.collection('productSalesAreas').find({ _id: {$in: areaIds}})
    .each((err, area) => {
      assert.equal(null, err);
 
@@ -46,13 +45,13 @@ router.get('/areas/:areaIds', (req, res) => {
        return;
      }
 
-     areas[area.id] = area;
+     areas[area._id] = area;
    });
 });
 
 router.get('/products/:productId', (req, res) => {
   mongoDb.collection('products')
-       .findOne({ id: Number(req.params.productId) })
+       .findOne({ _id: ObjectID(req.params.productId) })
        .then(product => res.send(product))
        .catch(console.error);
 });

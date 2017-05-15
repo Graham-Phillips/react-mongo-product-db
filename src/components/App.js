@@ -45,10 +45,10 @@ class App extends React.Component  {
     // get the product info
     api.fetchProduct(productId).then(product => {
       this.setState({
-        currentProductId: product.id,
+        currentProductId: product._id,
         products: {
           ...this.state.products,
-          [product.id]: product
+          [product._id]: product
         }
       });
     });
@@ -80,6 +80,9 @@ class App extends React.Component  {
   }
 
   fetchAreas = (areaIds) => {
+    if (areaIds.length === 0) {
+      return;
+    }
     api.fetchAreas(areaIds).then(areas => {
       this.setState( {
         areas
@@ -90,7 +93,9 @@ class App extends React.Component  {
   lookUpArea = (areaId) => {
     // if on initial load the areas will be undefined as fetchAreas not called yet
     if(!this.state.areas || !this.state.areas[areaId]) {
-      return '...'; // areas not available
+      return {
+        name: 'loading...'
+      }; // areas not available
     }
     return this.state.areas[areaId];
   };
